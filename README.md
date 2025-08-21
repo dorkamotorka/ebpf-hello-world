@@ -1,4 +1,4 @@
-# eBPF Hello World example
+# eBPF Hello World Example
 
 Every eBPF application usually consists out of at least two parts:
 
