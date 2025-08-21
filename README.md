@@ -1,5 +1,10 @@
 # eBPF Hello World example
 
+Every eBPF application usually consists out of at least two parts:
+
+- A user-space program (USP) that declares the kernel space program and attaches it to the relevant tracepoint/probe. -> In this case this is `main.go`.
+- A kernel-space program (KSP) is what gets triggered and runs inside the kernel once the tracepoint/probe is met. This is where the actual eBPF logic is implemented. -> In this case this is `hello.c`.
+
 ## Install dependencies
 
 To install eBPF dependencies, run:
