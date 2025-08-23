@@ -1,4 +1,14 @@
-# eBPF Hello World Example
+# eBPF Hello World Labs
+
+This repository contains a collection of hands-on labs for learning **eBPF**.  
+
+Each lab lives in its own subdirectory and focuses on a specific concept, tool:
+- `lab1/` – Introduction to eBPF and a minimal eBPF hello world program
+- `lab2/` – Implementing and Working with eBPF maps  
+- `lab3/` – [bpftool](https://github.com/libbpf/bpftool) CLI 
+- … more coming soon
+
+## Overview 
 
 Every eBPF application usually consists out of at least two parts:
 
