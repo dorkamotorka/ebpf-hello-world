@@ -29,7 +29,8 @@ int handle_execve_tp(struct trace_event_raw_sys_enter *ctx) {
 
     __u64 *val = bpf_map_lookup_elem(&exec_count, &key);
     if (val) {
-        __sync_fetch_and_add(val, 1);
+	// NOTE: this is not a safe way to update the value - we'll learn about atomic operations in the upcoming tutorial
+	*val += 1;
     } else {
         __u64 init = 1;
         // Try insert if not present; if it races, a later event will increment.
