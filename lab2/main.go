@@ -15,8 +15,8 @@ import (
 )
 
 func main() {
-	// By default, Linux sets a RLIMIT_MEMLOCK (memory lock limit) that restricts how much memory a process can lock into RAM. 
-	// eBPF maps and programs often use pinned memory that counts against this limit. 
+	// By default (for Linux < 5.11), Linux sets a RLIMIT_MEMLOCK (memory lock limit) that restricts how much memory a process can lock into RAM. 
+	// eBPF maps and programs use pinned memory that counts against this limit. 
 	// If you don’t raise or remove the limit, loading larger eBPF programs or maps will fail with errors like “operation not permitted” or “memory locked limit exceeded.”
 	if err := rlimit.RemoveMemlock(); err != nil {
 		log.Fatal("Removing memlock:", err)
