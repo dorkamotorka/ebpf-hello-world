@@ -1,4 +1,4 @@
-//go:build ignore
+// go:build ignore
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
 
@@ -28,9 +28,10 @@ int handle_execve_tp(struct trace_event_raw_sys_enter *ctx) {
     }
 
     __u64 *val = bpf_map_lookup_elem(&exec_count, &key);
-    // Step 1: Update this such that the value under the key is updated safely (avoiding race conditions)
+    // Step 1: Update this such that the value under the key is updated safely
+    // (avoiding race conditions)
     if (val) {
-	*val += 1;
+        *val += 1;
     } else {
         __u64 init = 1;
         bpf_map_update_elem(&exec_count, &key, &init, BPF_NOEXIST);
@@ -40,4 +41,3 @@ int handle_execve_tp(struct trace_event_raw_sys_enter *ctx) {
 
     return 0;
 }
-

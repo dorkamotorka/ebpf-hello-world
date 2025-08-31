@@ -4,11 +4,11 @@ package main
 //go:generate go run github.com/cilium/ebpf/cmd/bpf2go -target bpf hello hello.c
 
 import (
+	"context"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
-	"context"
 
 	"github.com/cilium/ebpf/link"
 	"github.com/cilium/ebpf/rlimit"
@@ -37,7 +37,7 @@ func main() {
 		log.Fatalf("Attaching Tracepoint: %s", err)
 	}
 	defer tp.Close()
-	
+
 	log.Println("eBPF program attached to tracepoint. Press Ctrl+C to exit.")
 
 	// Wait for SIGINT/SIGTERM (Ctrl+C) before exiting

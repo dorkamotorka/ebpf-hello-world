@@ -4,19 +4,19 @@ package main
 //go:generate go run github.com/cilium/ebpf/cmd/bpf2go -target bpf hello hello.c
 
 import (
+	"context"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
-	"context"
 
 	"github.com/cilium/ebpf/link"
 	"github.com/cilium/ebpf/rlimit"
 )
 
 func main() {
-	// By default (for Linux < 5.11), Linux sets a RLIMIT_MEMLOCK (memory lock limit) that restricts how much memory a process can lock into RAM. 
-	// eBPF maps and programs use pinned memory that counts against this limit. 
+	// By default (for Linux < 5.11), Linux sets a RLIMIT_MEMLOCK (memory lock limit) that restricts how much memory a process can lock into RAM.
+	// eBPF maps and programs use pinned memory that counts against this limit.
 	// If you don’t raise or remove the limit, loading larger eBPF programs or maps will fail with errors like “operation not permitted” or “memory locked limit exceeded.”
 	if err := rlimit.RemoveMemlock(); err != nil {
 		log.Fatal("Removing memlock:", err)
@@ -37,7 +37,7 @@ func main() {
 		log.Fatalf("Attaching Tracepoint: %s", err)
 	}
 	defer tp.Close()
-	
+
 	log.Println("eBPF program attached to tracepoint. Press Ctrl+C to exit.")
 
 	// Wait for SIGINT/SIGTERM (Ctrl+C) before exiting

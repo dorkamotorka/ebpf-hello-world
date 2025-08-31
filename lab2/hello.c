@@ -1,4 +1,4 @@
-//go:build ignore
+// go:build ignore
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
 
@@ -11,4 +11,3 @@ int handle_execve_tp(struct trace_event_raw_sys_enter *ctx) {
     // Step 2: Add map logic code here
     return 0;
 }
-
