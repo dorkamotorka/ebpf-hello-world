@@ -15,7 +15,7 @@
 // to the kernel source - where each helper’s bpf_func_proto struct defines the
 // gpl_only flag, indicating whether the helper is restricted to GPL-compatible
 // eBPF programs. (e.g.
-// https://codebrowser.dev/linux/linux/kernel/trace/bpf_trace.c.html?utm_source=chatgpt.com#bpf_trace_printk_proto)
+// https://codebrowser.dev/linux/linux/kernel/trace/bpf_trace.c.html#bpf_trace_printk_proto)
 char _license[] SEC("license") = "GPL";
 
 // SEC() places the following function into the ELF section that libbpf
