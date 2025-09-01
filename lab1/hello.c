@@ -1,5 +1,5 @@
 //go:build ignore
-//  The line above is explained in the tutorial
+//   The line above is explained in the tutorial
 
 // `vmlinux.h` is explained in the tutorial
 #include "vmlinux.h"

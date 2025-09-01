@@ -28,30 +28,18 @@ int handle_execve_tp(struct trace_event_raw_sys_enter *ctx) {
     }
 
     __u64 *val = bpf_map_lookup_elem(&exec_count, &key);
-    if (!val) {
-        // Initialize counter to zero if the binary is executed for the first
-        // time Avoid race, since:
-        // * Two CPUs can both see !val (non-existing key), then both try to
-        // insert
-        // * CPU A succeeds, CPU B fails (BPF_NOEXIST rejects).
-        //
-        // NOTE: BPF_NOEXIST flag only creates the entry if the key doesn't
-        // exist yet
-        __u64 zero = 0;
-        bpf_map_update_elem(&exec_count, &key, &zero, BPF_NOEXIST);
-
-        // Sanity check since bpf_map_lookup_elem can return NULL if the eBPF
-        // map is full NOTE: Ideally we would also report the error here to the
-        // developer
-        val = bpf_map_lookup_elem(&exec_count, &key);
-        if (!val)
-            return 0;
+    if (val) {
+        // NOTE: this is not a safe way to update the value - we'll learn about
+        // atomic operations in the upcoming tutorial
+        *val += 1;
+    } else {
+        __u64 init = 1;
+        bpf_map_update_elem(&exec_count, &key, &init, BPF_NOEXIST);
     }
 
-    // Atomic increment of the value in the eBPF map
-    __sync_fetch_and_add(val, 1);
-
-    bpf_printk("execve: %s\n", key.path);
+    if (val) {
+        bpf_printk("execve: %s (count: %llu)\n", key.path, *val);
+    }
 
     return 0;
 }

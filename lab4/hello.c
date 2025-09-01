@@ -2,7 +2,10 @@
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
 
-char _license[] SEC("license") = "GPL";
+// Step 1: Uncomment this as we are using bpf_probe_read_user_str() helper
+// function that is GPL licenced Ref:
+// https://codebrowser.dev/linux/linux/kernel/trace/bpf_trace.c.html#bpf_probe_read_user_str_proto
+// char _license[] SEC("license") = "GPL";
 
 #define MAX_PATH 256
 
@@ -28,8 +31,6 @@ int handle_execve_tp(struct trace_event_raw_sys_enter *ctx) {
     }
 
     __u64 *val = bpf_map_lookup_elem(&exec_count, &key);
-    // Step 1: Update this such that the value under the key is updated safely
-    // (avoiding race conditions)
     if (val) {
         *val += 1;
     } else {
@@ -37,7 +38,12 @@ int handle_execve_tp(struct trace_event_raw_sys_enter *ctx) {
         bpf_map_update_elem(&exec_count, &key, &init, BPF_NOEXIST);
     }
 
-    bpf_printk("execve: %s\n", key.path);
-
+    // Step 2: Replace the following line with the ones below
+    // All pointers need to be checked before they are dereferenced, since null
+    // is not a valid memory location
+    bpf_printk("execve: %s (count: %llu)\n", key.path, *val);
+    // if (val) {
+    //	bpf_printk("execve: %s (count: %llu)\n", key.path, *val);
+    // }
     return 0;
 }
