@@ -2,8 +2,7 @@
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
 
-// Step 1: Understand why do you need to configure the license for this program 
-// char _license[] SEC("license") = "GPL";
+// Step 1: Add the license for this program 
 
 #define MAX_PATH 256
 
@@ -36,9 +35,7 @@ int handle_execve_tp(struct trace_event_raw_sys_enter *ctx) {
         bpf_map_update_elem(&exec_count, &key, &init, BPF_NOEXIST);
     }
 
-    // Step 2: Understand why do we need to check the pointer before dereferencing it
-    // if (val) {
-    //	bpf_printk("execve: %s (count: %llu)\n", key.path, *val);
-    // }
+    // Step 2: Print `key.path` and `*val`
+
     return 0;
 }
