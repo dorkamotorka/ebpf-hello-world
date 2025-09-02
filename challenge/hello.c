@@ -16,7 +16,7 @@ struct {
 } exec_count SEC(".maps");
 
 SEC("tracepoint/syscalls/sys_enter_execve")
-int handle_execve_tp(struct trace_event_raw_sys_enter *ctx) {
+int challenge(struct trace_event_raw_sys_enter *ctx) {
     const char *filename = (const char *)ctx->args[0];
 
     struct path_key key = {};
