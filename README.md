@@ -41,6 +41,8 @@ By running random commands in another terminal, you should be able to see `Hello
 
 ## Additional Notes
 
+The code utilizes [bpf2go](https://github.com/cilium/ebpf/tree/main/cmd/bpf2go) command directive to compile eBPF kernel code and generate Go source file that make it easier to work with kernel primitives.
+
 By default, `bpf2go` internally uses `clang` with some helpful default flags. Among them are:
 
 - `-g`: Includes debug information, which is necessary for BTF.
