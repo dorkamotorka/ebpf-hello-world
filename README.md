@@ -7,6 +7,7 @@ Each lab lives in its own subdirectory and focuses on a specific concept, tool:
 - `lab2/` – Implementing and Working with eBPF maps  
 - `lab3/` – eBPF Tools
 - `lab4/` - eBPF Verifier 
+- `challenge/` - Challenge code
 - `solution/` - Final solution
 
 ## Overview 

@@ -2,9 +2,6 @@
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
 
-// NOTE: In the challenge this license is missing!
-char _license[] SEC("license") = "GPL";
-
 #define MAX_PATH 256
 
 struct path_key {
@@ -25,13 +22,11 @@ int handle_execve_tp(struct trace_event_raw_sys_enter *ctx) {
     struct path_key key = {};
     long n = bpf_probe_read_user_str(key.path, sizeof(key.path), filename);
     if (n <= 0) {
-        return 0; // couldn't read the path
+        return 0;
     }
 
     __u64 *val = bpf_map_lookup_elem(&exec_count, &key);
     if (val) {
-        // NOTE: this is not a safe way to update the value - we'll learn about
-        // atomic operations in the upcoming tutorial
         *val += 1;
     } else {
         __u64 init = 1;
