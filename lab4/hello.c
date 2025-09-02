@@ -37,7 +37,6 @@ int handle_execve_tp(struct trace_event_raw_sys_enter *ctx) {
     }
 
     // Step 2: Understand why do we need to check the pointer before dereferencing it
-    bpf_printk("execve: %s (count: %llu)\n", key.path, *val);
     // if (val) {
     //	bpf_printk("execve: %s (count: %llu)\n", key.path, *val);
     // }
